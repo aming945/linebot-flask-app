@@ -3,6 +3,7 @@ from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage, QuickReply, QuickReplyButton, MessageAction
 from linebot.models import TemplateSendMessage, ButtonsTemplate, PostbackAction, PostbackEvent,FlexSendMessage
+import os
 
 app = Flask(__name__)
 
@@ -53,7 +54,7 @@ def handle_message(event):
                     "layout": "vertical",
                     "contents": [
                         {"type": "text", "text": "請選擇課程相關問題", "weight": "bold", "size": "md", "margin": "md"},
-                        {"type": "button", "style": "white", "action": {"type": "message", "label": "課程報名", "text": "課程報名"}},
+                        {"type": "button", "style": "primary", "action": {"type": "message", "label": "課程報名", "text": "課程報名"}},
                         {"type": "button", "style": "primary", "action": {"type": "message", "label": "課程費用", "text": "課程費用"}},
                         {"type": "button", "style": "primary", "action": {"type": "message", "label": "課程時程", "text": "課程時程"}},
                         {"type": "button", "style": "primary", "action": {"type": "message", "label": "課程證明", "text": "課程證明"}}
@@ -86,4 +87,5 @@ def handle_postback(event):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
