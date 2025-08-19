@@ -15,7 +15,18 @@ handler = WebhookHandler('0accce30a3ead3b05e956b69b96fda08')
 
 @app.route("/")
 def home():
-    return "Hello, Render is running!"
+    try:
+        msg = request.args.get('msg')
+        if msg == '1':
+        # 如果 msg 等於 1，發送文字訊息
+            # line_bot_api.push_message('你的 user ID', TextSendMessage(text='hello'))
+            print('hi!!')
+        else:
+            msg = 'ok'   # 如果沒有 msg 或 msg 不是 1～4，將 msg 設定為 ok
+            return msg
+    except:
+        print('error')
+
 
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -32,7 +43,7 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     user_msg = event.message.text
-
+    print(f"收到訊息：{event.message.text}")
     if user_msg == "健保":
         buttons_template = TemplateSendMessage(
         alt_text='您想詢問哪種健保問題？',
@@ -148,7 +159,7 @@ def handle_message(event):
                                 },
                                 button_with_line("các loại xin nghỉ", "các loại xin nghỉ"),
                                 button_with_line("giấy xác nhận đang học", "giấy xác nhận đang học"),
-                                
+                                button_with_line("Điều kiện tốt nghiệp", "Điều kiện tốt nghiệp"),
                             ]
                         }
                     }
@@ -305,6 +316,24 @@ def handle_message(event):
                                 button_with_line("Xin giấy phép lao động", "Xin giấy phép lao động"),
                                 button_with_line("mở tài khoản của bưu điện", "mở tài khoản của bưu điện"),
                                 button_with_line("quên tên đăng nhập", "quên tên đăng nhập"),
+                            ]
+                        }
+                    },
+                    {
+                        "type": "bubble",
+                        "body": {
+                            "type": "box",
+                            "layout": "vertical",
+                            "contents": [
+                                {
+                                    "type": "text",
+                                    "text": "🏦 證件展延",
+                                    "weight": "bold",
+                                    "size": "xl",
+                                    "align": "center"
+                                },
+                                button_with_line("居留證展延", "居留證展延"),
+                                button_with_line("工作證展延", "工作證展延"),
                             ]
                         }
                     }
@@ -580,7 +609,7 @@ def handle_message(event):
                                     "align": "center"
                                 },
                                 button_with_line("Liên hệ với chúng tôi", "Liên hệ với chúng tôi"),
-                               
+                                button_with_line("Mất thẻ sinh viên", "Mất thẻ sinh viên"),                    
                             ]
                         }
                     }
