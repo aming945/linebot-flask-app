@@ -332,8 +332,8 @@ def handle_message(event):
                                     "size": "xl",
                                     "align": "center"
                                 },
-                                button_with_line("居留證展延", "居留證展延"),
-                                button_with_line("工作證展延", "工作證展延"),
+                                button_with_line("Gia hạn thẻ cư trú", "Gia hạn thẻ cư trú"),
+                                button_with_line("Gia hạn giấy phép đi làm", "Gia hạn giấy phép đi làm"),
                             ]
                         }
                     }
