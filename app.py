@@ -45,30 +45,26 @@ def home():
     try:
         msg = request.args.get('msg')
 
-        # 先讀取 Excel 裡的編號欄位
-        wb = load_workbook(EXCEL_FILE)
-        ws = wb.active
+        # 讀取 Google Sheet 所有資料
+        all_rows = sheet.get_all_records()  # 會以第一列作為欄位名稱
+        if not all_rows or "編號" not in all_rows[0]:
+            return "Google Sheet 裡找不到「編號」欄位"
 
-        # 找到標題「編號」是第幾欄
-        headers = [cell.value for cell in ws[1]]
-        if "編號" not in headers:
-            raise ValueError("Excel 裡找不到「編號」欄位")
-        id_col_index = headers.index("編號") + 1  # openpyxl 是 1-index
-
-        # 讀取所有編號欄位資料（從第2列開始）
-        user_ids = [row[id_col_index - 1].value for row in ws.iter_rows(min_row=2) if row[id_col_index - 1].value]
+        # 取出所有 user_id
+        user_ids = [row["編號"] for row in all_rows if row["編號"]]
 
         if msg == '1':
-            # 依序發送訊息給 Excel 裡的所有 user_id
+            # 依序發送訊息給 Google Sheet 裡的所有 user_id
             for user_id in user_ids:
-                line_bot_api.push_message(user_id, TextSendMessage(text='你好'))
-            return "已發送給 Excel 裡的所有編號"
+                line_bot_api.push_message(user_id, TextSendMessage(text="你好"))
+            return "已發送給 Google Sheet 裡的所有使用者"
         else:
             return 'ok'
-
+        
     except Exception as e:
         print('error:', e)
         return '發送失敗.'
+
 
 
 @app.route("/callback", methods=['POST'])
