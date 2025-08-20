@@ -6,7 +6,7 @@ from linebot.models import TemplateSendMessage, ButtonsTemplate, PostbackAction,
 
 from openpyxl import load_workbook, Workbook
 from oauth2client.service_account import ServiceAccountCredentials
-import os
+import os,json
 import gspread
 
 
@@ -24,8 +24,10 @@ SHEET_NAME = '工作表1'
 
 scope = ['https://spreadsheets.google.com/feeds',
          'https://www.googleapis.com/auth/drive']
-credentials = ServiceAccountCredentials.from_json_keyfile_name(
-    SERVICE_ACCOUNT_INFO, scope)
+credentials = ServiceAccountCredentials.from_json_keyfile_dict(
+    json.loads(SERVICE_ACCOUNT_INFO),
+    scope
+)
 
 gc = gspread.authorize(credentials)
 sheet = gc.open_by_key(SHEET_ID).worksheet(SHEET_NAME)
