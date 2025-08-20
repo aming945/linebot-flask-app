@@ -17,14 +17,15 @@ app = Flask(__name__)
 line_bot_api = LineBotApi('goBLuHUNvyvNlynFI+Xc/jgM/n8L/60A0X23kx+n5QM6Hp6IpDWyu5w6qP/hs6T6uawY6KX3Ijo915mGgPrDh3X35BUbBL8V7Fu55gJkA5/c86rN1hM6y4WrXlL/lLAQqNe+lK8BcAvQUfCW2WPSswdB04t89/1O/w1cDnyilFU=')
 handler = WebhookHandler('0accce30a3ead3b05e956b69b96fda08')
 
-SERVICE_ACCOUNT_FILE = 'service_account.json'  # 下載的 JSON 金鑰
+SERVICE_ACCOUNT_INFO = os.environ.get('SERVICE_ACCOUNT_JSON')  # 下載的 JSON 金鑰
+
 SHEET_ID = '1DfyNVTDO5RYe4AOUOAfgRY5ostiZqor_nbeYe-Igd7k'
 SHEET_NAME = '工作表1'
 
 scope = ['https://spreadsheets.google.com/feeds',
          'https://www.googleapis.com/auth/drive']
 credentials = ServiceAccountCredentials.from_json_keyfile_name(
-    SERVICE_ACCOUNT_FILE, scope)
+    SERVICE_ACCOUNT_INFO, scope)
 
 gc = gspread.authorize(credentials)
 sheet = gc.open_by_key(SHEET_ID).worksheet(SHEET_NAME)
