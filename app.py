@@ -47,11 +47,11 @@ def home():
 
         # 讀取 Google Sheet 所有資料
         all_rows = sheet.get_all_records()  # 會以第一列作為欄位名稱
-        if not all_rows or "編號" not in all_rows[0]:
+        if not all_rows or "user_id" not in all_rows[0]:
             return "Google Sheet 裡找不到「編號」欄位"
 
         # 取出所有 user_id
-        user_ids = [row["編號"] for row in all_rows if row["編號"]]
+        user_ids = [row["user_id"] for row in all_rows if row["user_id"]]
 
         if msg == '1':
             # 依序發送訊息給 Google Sheet 裡的所有 user_id
