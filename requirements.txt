@@ -3,3 +3,4 @@ line-bot-sdk
 openpyxl
 gunicorn
 oauth2client
+gspread
