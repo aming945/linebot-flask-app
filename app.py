@@ -5,6 +5,7 @@ from linebot.models import MessageEvent, TextMessage, TextSendMessage, QuickRepl
 from linebot.models import TemplateSendMessage, ButtonsTemplate, PostbackAction, PostbackEvent,FlexSendMessage
 import os
 from openpyxl import load_workbook, Workbook
+from openpyxl import load_workbook, Workbook
 
 app = Flask(__name__)
 
