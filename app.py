@@ -63,7 +63,7 @@ def home():
         
     except Exception as e:
         print('error:', e)
-        return '發送失敗.'
+        return f'發送失敗: {e}'
 
 
 
