@@ -4,6 +4,7 @@ from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage, QuickReply, QuickReplyButton, MessageAction
 from linebot.models import TemplateSendMessage, ButtonsTemplate, PostbackAction, PostbackEvent,FlexSendMessage
 import os
+from openpyxl import load_workbook, Workbook
 
 app = Flask(__name__)
 
@@ -17,15 +18,31 @@ handler = WebhookHandler('0accce30a3ead3b05e956b69b96fda08')
 def home():
     try:
         msg = request.args.get('msg')
+
+        # 先讀取 Excel 裡的編號欄位
+        wb = load_workbook(EXCEL_FILE)
+        ws = wb.active
+
+        # 找到標題「編號」是第幾欄
+        headers = [cell.value for cell in ws[1]]
+        if "編號" not in headers:
+            raise ValueError("Excel 裡找不到「編號」欄位")
+        id_col_index = headers.index("編號") + 1  # openpyxl 是 1-index
+
+        # 讀取所有編號欄位資料（從第2列開始）
+        user_ids = [row[id_col_index - 1].value for row in ws.iter_rows(min_row=2) if row[id_col_index - 1].value]
+
         if msg == '1':
-        # 如果 msg 等於 1，發送文字訊息
-            # line_bot_api.push_message('你的 user ID', TextSendMessage(text='hello'))
-            print('hi!!')
+            # 依序發送訊息給 Excel 裡的所有 user_id
+            for user_id in user_ids:
+                line_bot_api.push_message(user_id, TextSendMessage(text='你好'))
+            return "已發送給 Excel 裡的所有編號"
         else:
-            msg = 'ok'   # 如果沒有 msg 或 msg 不是 1～4，將 msg 設定為 ok
-            return msg
-    except:
-        print('error')
+            return 'ok'
+
+    except Exception as e:
+        print('error:', e)
+        return '發送失敗'
 
 
 @app.route("/callback", methods=['POST'])
@@ -40,8 +57,46 @@ def callback():
 
     return 'OK'
 
+EXCEL_FILE = 'users.xlsx'
+
+# 如果 Excel 不存在，先建立一個
+if not os.path.exists(EXCEL_FILE):
+    wb = Workbook()
+    ws = wb.active
+    ws.append(["user_id", "display_name"])  # 標題欄
+    wb.save(EXCEL_FILE)
+
+def save_user_to_excel(user_id, display_name):
+    wb = load_workbook(EXCEL_FILE)
+    ws = wb.active
+
+    # 先檢查 user_id 是否已經存在
+    existing_ids = [row[0].value for row in ws.iter_rows(min_row=2)]
+    if user_id not in existing_ids:
+        ws.append([user_id, display_name])
+        wb.save(EXCEL_FILE)
+        print(f"已新增使用者: {display_name} ({user_id})")
+    else:
+        print(f"使用者已存在: {display_name} ({user_id})")
+
+
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
+    user_id = event.source.user_id
+        
+        # 取得使用者個人資訊
+    profile = line_bot_api.get_profile(user_id)
+        
+    display_name = profile.display_name  # 使用者名稱    
+    print("使用者名字:", display_name)
+    if event.source.type == "user":
+        user_id = event.source.user_id
+        profile = line_bot_api.get_profile(user_id)
+        display_name = profile.display_name
+
+            # 儲存到 Excel
+        save_user_to_excel(user_id, display_name)
+
     user_msg = event.message.text
     print(f"收到訊息：{event.message.text}")
     if user_msg == "健保":
