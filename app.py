@@ -3,8 +3,12 @@ from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage, QuickReply, QuickReplyButton, MessageAction
 from linebot.models import TemplateSendMessage, ButtonsTemplate, PostbackAction, PostbackEvent,FlexSendMessage
-import os
+
 from openpyxl import load_workbook, Workbook
+from oauth2client.service_account import ServiceAccountCredentials
+import os
+import gspread
+
 
 app = Flask(__name__)
 
@@ -13,6 +17,25 @@ app = Flask(__name__)
 line_bot_api = LineBotApi('goBLuHUNvyvNlynFI+Xc/jgM/n8L/60A0X23kx+n5QM6Hp6IpDWyu5w6qP/hs6T6uawY6KX3Ijo915mGgPrDh3X35BUbBL8V7Fu55gJkA5/c86rN1hM6y4WrXlL/lLAQqNe+lK8BcAvQUfCW2WPSswdB04t89/1O/w1cDnyilFU=')
 handler = WebhookHandler('0accce30a3ead3b05e956b69b96fda08')
 
+SERVICE_ACCOUNT_FILE = 'service_account.json'  # 下載的 JSON 金鑰
+SHEET_ID = '1DfyNVTDO5RYe4AOUOAfgRY5ostiZqor_nbeYe-Igd7k'
+SHEET_NAME = '工作表1'
+
+scope = ['https://spreadsheets.google.com/feeds',
+         'https://www.googleapis.com/auth/drive']
+credentials = ServiceAccountCredentials.from_json_keyfile_name(
+    SERVICE_ACCOUNT_FILE, scope)
+
+gc = gspread.authorize(credentials)
+sheet = gc.open_by_key(SHEET_ID).worksheet(SHEET_NAME)
+
+def save_user_to_sheet(user_id, display_name):
+    all_user_ids = sheet.col_values(1)  # 假設 user_id 在第一欄
+    if user_id not in all_user_ids:
+        sheet.append_row([user_id, display_name])
+        print(f"已新增使用者: {display_name} ({user_id})")
+    else:
+        print(f"使用者已存在: {display_name} ({user_id})")
 
 @app.route("/")
 def home():
@@ -42,7 +65,7 @@ def home():
 
     except Exception as e:
         print('error:', e)
-        return '發送失敗'
+        return '發送失敗.'
 
 
 @app.route("/callback", methods=['POST'])
@@ -59,43 +82,38 @@ def callback():
 
 EXCEL_FILE = 'users.xlsx'
 
-# 如果 Excel 不存在，先建立一個
-if not os.path.exists(EXCEL_FILE):
-    wb = Workbook()
-    ws = wb.active
-    ws.append(["user_id", "display_name"])  # 標題欄
-    wb.save(EXCEL_FILE)
+# # 如果 Excel 不存在，先建立一個
+# if not os.path.exists(EXCEL_FILE):
+#     wb = Workbook()
+#     ws = wb.active
+#     ws.append(["user_id", "display_name"])  # 標題欄
+#     wb.save(EXCEL_FILE)
 
-def save_user_to_excel(user_id, display_name):
-    wb = load_workbook(EXCEL_FILE)
-    ws = wb.active
+# def save_user_to_excel(user_id, display_name):
+#     wb = load_workbook(EXCEL_FILE)
+#     ws = wb.active
 
-    # 先檢查 user_id 是否已經存在
-    existing_ids = [row[0].value for row in ws.iter_rows(min_row=2)]
-    if user_id not in existing_ids:
-        ws.append([user_id, display_name])
-        wb.save(EXCEL_FILE)
-        print(f"已新增使用者: {display_name} ({user_id})")
-    else:
-        print(f"使用者已存在: {display_name} ({user_id})")
+#     # 先檢查 user_id 是否已經存在
+#     existing_ids = [row[0].value for row in ws.iter_rows(min_row=2)]
+#     if user_id not in existing_ids:
+#         ws.append([user_id, display_name])
+#         wb.save(EXCEL_FILE)
+#         print(f"已新增使用者: {display_name} ({user_id})")
+#     else:
+#         print(f"使用者已存在: {display_name} ({user_id})")
 
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    user_id = event.source.user_id
-        
-        # 取得使用者個人資訊
-    profile = line_bot_api.get_profile(user_id)
-        
-    display_name = profile.display_name  # 使用者名稱    
-    print("使用者名字:", display_name)
-    if event.source.type == "user":
+    if event.source.type == "user":  # 只收集個人使用者
         user_id = event.source.user_id
         profile = line_bot_api.get_profile(user_id)
         display_name = profile.display_name
-
-            # 儲存到 Excel
-        save_user_to_excel(user_id, display_name)
+        
+        print("使用者名字:", display_name)
+        
+        # 儲存到 Google Sheet
+        save_user_to_sheet(user_id, display_name)
 
     user_msg = event.message.text
     print(f"收到訊息：{event.message.text}")
