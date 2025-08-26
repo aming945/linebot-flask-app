@@ -159,7 +159,6 @@ def handle_message(event):
                                 },
                                 button_with_line("các loại xin nghỉ", "các loại xin nghỉ"),
                                 button_with_line("giấy xác nhận đang học", "giấy xác nhận đang học"),
-                                button_with_line("Điều kiện tốt nghiệp", "Điều kiện tốt nghiệp"),
                             ]
                         }
                     }
@@ -334,6 +333,25 @@ def handle_message(event):
                                 },
                                 button_with_line("Gia hạn thẻ cư trú", "Gia hạn thẻ cư trú"),
                                 button_with_line("Gia hạn giấy phép đi làm", "Gia hạn giấy phép đi làm"),
+                                button_with_line("thay đổi địa chỉ trên ARC", "thay đổi địa chỉ trên ARC"),
+
+                            ]
+                        }
+                    },
+                    {
+                        "type": "bubble",
+                        "body": {
+                            "type": "box",
+                            "layout": "vertical",
+                            "contents": [
+                                {
+                                    "type": "text",
+                                    "text": "🏦 證件補辦",
+                                    "weight": "bold",
+                                    "size": "xl",
+                                    "align": "center"
+                                },
+                                button_with_line("mất thẻ cư trú", "mất thẻ cư trú"),
                             ]
                         }
                     }
