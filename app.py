@@ -227,7 +227,7 @@ def handle_message(event):
                                 },
                                 button_with_line("Vị trí các tòa nhà", "Vị trí các tòa nhà"),
                                 button_with_line("Vị trí văn phòng các khoa", "Vị trí văn phòng các khoa"),
-                                button_with_line("Vị trí quán ăn", "Vị trí quán ăn"),
+                                button_with_line("các đơn vị hành chính", "các đơn vị hành chính"),
                             ]
                         }
                     },
@@ -247,6 +247,23 @@ def handle_message(event):
                                 button_with_line("Vị trí cây atm", "Vị trí cây atm"),
                                 button_with_line("Vị trí tiệm photo", "Vị trí tiệm photo"),
                                 button_with_line("Các địa điểm mua đồ", "Các địa điểm mua đồ"),
+                            ]
+                        }
+                    },
+                    {
+                        "type": "bubble",
+                        "body": {
+                            "type": "box",
+                            "layout": "vertical",
+                            "contents": [
+                                {
+                                    "type": "text",
+                                    "text": "🍽 校園生活機能2",
+                                    "weight": "bold",
+                                    "size": "xl",
+                                    "align": "center"
+                                },
+                                button_with_line("Vị trí quán ăn", "Vị trí quán ăn"),          
                             ]
                         }
                     }
