@@ -263,7 +263,8 @@ def handle_message(event):
                                     "size": "xl",
                                     "align": "center"
                                 },
-                                button_with_line("Vị trí quán ăn", "Vị trí quán ăn"),          
+                                button_with_line("Vị trí quán ăn", "Vị trí quán ăn"),
+                                button_with_line("Xem tin mới nhất", "Xem tin mới nhất"),
                             ]
                         }
                     }
@@ -644,7 +645,8 @@ def handle_message(event):
                                     "align": "center"
                                 },
                                 button_with_line("Liên hệ với chúng tôi", "Liên hệ với chúng tôi"),
-                                button_with_line("Mất thẻ sinh viên", "Mất thẻ sinh viên"),                    
+                                button_with_line("Mất thẻ sinh viên", "Mất thẻ sinh viên"),   
+                                button_with_line("gửi xe trong trường", "gửi xe trong trường"),   
                             ]
                         }
                     }
