@@ -40,6 +40,9 @@ def callback():
 
     return 'OK'
 
+@handler.add(MessageEvent, message=TextMessage)
+def handle_message(event):
+    user_msg = event.message.text
 
     def button_with_line(label, text):
         return {
