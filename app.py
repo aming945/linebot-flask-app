@@ -40,25 +40,6 @@ def callback():
 
     return 'OK'
 
-@handler.add(MessageEvent, message=TextMessage)
-def handle_message(event):
-    user_msg = event.message.text
-    print(f"收到訊息：{event.message.text}")
-    if user_msg == "健保":
-        buttons_template = TemplateSendMessage(
-        alt_text='您想詢問哪種健保問題？',
-        template=ButtonsTemplate(
-            title='您想詢問哪種健保問題？',
-            text='請選擇：',
-            actions=[
-                MessageAction(label='xin thẻ bảo hiểm', text='xin thẻ bảo hiểm y tế'),
-                MessageAction(label='健保費用', text='健保費用'),
-                MessageAction(label='健保卡忘記帶', text='健保卡忘記帶'),
-                MessageAction(label='健保退費', text='健保退費'),
-            ]
-        )
-    )
-        line_bot_api.reply_message(event.reply_token, buttons_template)
 
     def button_with_line(label, text):
         return {
@@ -114,6 +95,23 @@ def handle_message(event):
                             "contents": [
                                 {
                                     "type": "text",
+                                    "text": "🎓學籍與課程資訊2",
+                                    "weight": "bold",
+                                    "size": "xl",
+                                    "align": "center"
+                                },
+                                button_with_line("tra cứu thông tin học tập", "tra cứu thông tin học tập"),                               
+                            ]
+                        }
+                    },
+                    {
+                        "type": "bubble",
+                        "body": {
+                            "type": "box",
+                            "layout": "vertical",
+                            "contents": [
+                                {
+                                    "type": "text",
                                     "text": "📊學業與操行表現",
                                     "weight": "bold",
                                     "size": "xl",
@@ -158,7 +156,7 @@ def handle_message(event):
                                     "align": "center"
                                 },
                                 button_with_line("các loại xin nghỉ", "các loại xin nghỉ"),
-                                button_with_line("giấy xác nhận đang học", "giấy xác nhận đang học"),
+                                button_with_line("xin giấy xác nhận đang học", "xin giấy xác nhận đang học"),
                             ]
                         }
                     }
@@ -188,8 +186,8 @@ def handle_message(event):
                                     "align": "center"
                                 },
                                 button_with_line("Video về trường", "Video về trường"),
+                                button_with_line("khuôn viên trường", "khuôn viên trường"),   
                                 button_with_line("trang web của trường", "trang web của trường"),
-                                button_with_line("lịch", "lịch"),
                             ]
                         }
                     },
@@ -265,6 +263,7 @@ def handle_message(event):
                                 },
                                 button_with_line("Vị trí quán ăn", "Vị trí quán ăn"),
                                 button_with_line("Xem tin mới nhất", "Xem tin mới nhất"),
+                                button_with_line("lịch", "lịch"),
                             ]
                         }
                     }
@@ -350,7 +349,7 @@ def handle_message(event):
                                     "align": "center"
                                 },
                                 button_with_line("Gia hạn thẻ cư trú", "Gia hạn thẻ cư trú"),
-                                button_with_line("Gia hạn giấy phép đi làm", "Gia hạn giấy phép đi làm"),
+                                button_with_line("Gia hạn giấy phép lao động", "Gia hạn giấy phép lao động"),
                                 button_with_line("thay đổi địa chỉ trên ARC", "thay đổi địa chỉ trên ARC"),
 
                             ]
@@ -397,8 +396,9 @@ def handle_message(event):
                                     "size": "xl",
                                     "align": "center"
                                 },
-                                button_with_line("hướng dẫn khám bệnh", "hướng dẫn khám bệnh"),
                                 button_with_line("Thông tin khám bệnh", "Thông tin khám bệnh"),
+                                button_with_line("hướng dẫn khám bệnh", "hướng dẫn khám bệnh"),
+                                
                             ]
                         }
                     },
@@ -656,165 +656,13 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token, flex_message) 
 
 
-        flex_message = FlexSendMessage(
-    alt_text='您想詢問哪種課程問題？',
-    contents={
-        "type": "bubble",
-        "body": {
-            "type": "box",
-            "layout": "vertical",
-            "contents": [
-                {
-                    "type": "text",
-                    "text": "請選擇課程相關問題",
-                    "weight": "bold",
-                    "size": "xl",
-                    "align": "center",
-                    "marginBottom": "lg"
-                },
-                {
-                    "type": "box",
-                    "layout": "horizontal",
-                    "spacing": "sm",
-                    "contents": [
-                        {
-                            "type": "box",
-                            "layout": "vertical",
-                            "flex": 1,
-                            "cornerRadius": "md",
-                            "paddingAll": "5px",
-                            "contents": [
-                                {
-                                    "type": "button",
-                                    "style": "link",
-                                    "action": {
-                                        "type": "message",
-                                        "label": "課程報名",
-                                        "text": "課程報名"
-                                    },
-                                    "color": "#4848FF",
-                                    "height": "sm"
-                                },
-                                {
-                                    "type": "separator",
-                                    "margin": "sm",
-                                    "color": "#DDDDDD"
-                                },
-                                {
-                                    "type": "button",
-                                    "style": "link",
-                                    "action": {
-                                        "type": "message",
-                                        "label": "課程費用",
-                                        "text": "課程費用"
-                                    },
-                                    "color": "#0000FF",
-                                    "height": "sm"
-                                },
-                                {
-                                    "type": "separator",
-                                    "margin": "sm",
-                                    "color": "#DDDDDD"
-                                },
-                                {
-                                    "type": "button",
-                                    "style": "link",
-                                    "action": {
-                                        "type": "message",
-                                        "label": "課程證明",
-                                        "text": "課程證明"
-                                    },
-                                    "color": "#0000FF",
-                                    "height": "sm"
-                                }
-                            ]
-                        },
-                        {
-                            "type": "box",
-                            "layout": "vertical",
-                            "flex": 1,
-                            "cornerRadius": "md",
-                            "paddingAll": "5px",
-                            "contents": [
-                                {
-                                    "type": "button",
-                                    "style": "link",
-                                    "action": {
-                                        "type": "message",
-                                        "label": "上課地點",
-                                        "text": "上課地點"
-                                    },
-                                    "color": "#0000FF",
-                                    "height": "sm"
-                                },
-                                {
-                                    "type": "separator",
-                                    "margin": "sm",
-                                    "color": "#DDDDDD"
-                                },
-                                {
-                                    "type": "button",
-                                    "style": "link",
-                                    "action": {
-                                        "type": "message",
-                                        "label": "上課時間",
-                                        "text": "上課時間"
-                                    },
-                                    "color": "#0000FF",
-                                    "height": "sm"
-                                },
-                                {
-                                    "type": "separator",
-                                    "margin": "sm",
-                                    "color": "#DDDDDD"
-                                },
-                                {
-                                    "type": "button",
-                                    "style": "link",
-                                    "action": {
-                                        "type": "message",
-                                        "label": "其他問題",
-                                        "text": "其他問題"
-                                    },
-                                    "color": "#0000FF",
-                                    "height": "sm"
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        }
-    }
-)
-
-        line_bot_api.reply_message(event.reply_token, flex_message)
 
     
     
 
 
     
-# 處理使用者點擊 postback 按鈕
-@handler.add(PostbackEvent)
-def handle_postback(event):
-    data = event.postback.data
 
-    if data == '加入健保':
-        reply_text = "加入健保"
-    elif data == '健保費用':
-        reply_text = "健保費用"
-    elif data == '健保卡忘記帶':
-        reply_text = "健保卡忘記帶"
-    elif data == '健保退費':
-        reply_text = "健保退費"
-    else:
-        reply_text = "您選擇了：" + data
-
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=reply_text)
-    )
 
 
 if __name__ == "__main__":
