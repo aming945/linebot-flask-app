@@ -162,6 +162,24 @@ def handle_message(event):
                                 button_with_line("xin giấy xác nhận đang học", "xin giấy xác nhận đang học"),
                             ]
                         }
+                    },
+                    {
+                        "type": "bubble",
+                        "body": {
+                            "type": "box",
+                            "layout": "vertical",
+                            "contents": [
+                                {
+                                    "type": "text",
+                                    "text": "🎓 就學相關須知",
+                                    "weight": "bold",
+                                    "size": "xl",
+                                    "align": "center"
+                                },
+                                button_with_line("Quy định việc học 1", "Quy định việc học 1"),
+                                button_with_line("Quy định việc học 2", "Quy định việc học 2"),
+                            ]
+                        }
                     }
                 ]
             }
@@ -542,8 +560,9 @@ def handle_message(event):
                                     "size": "xl",
                                     "align": "center"
                                 },
+                                button_with_line("Quy định dành cho người lái xe", "Quy định dành cho người lái xe"),
                                 button_with_line("đăng ký chính chủ", "đăng ký chính chủ"),
-                                
+                                button_with_line("Tra cứu phí gửi xe", "Tra cứu phí gửi xe"),
                             ]
                         }
                     }
@@ -573,7 +592,7 @@ def handle_message(event):
                                 },
                                 button_with_line("lấy thư", "lấy thư"),
                                 button_with_line("lấy hàng", "lấy hàng"),
-                                button_with_line("mua sách", "mua sách"),
+                                button_with_line("mua sách tiếng Trung", "mua sách tiếng Trung"),
                             ]
                         }
                     },
@@ -657,15 +676,6 @@ def handle_message(event):
             }
         )
         line_bot_api.reply_message(event.reply_token, flex_message) 
-
-
-
-    
-    
-
-
-    
-
 
 
 if __name__ == "__main__":
