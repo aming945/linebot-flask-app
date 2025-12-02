@@ -77,6 +77,14 @@ def handle_message(event):
                             "type": "box",
                             "layout": "vertical",
                             "contents": [
+                                 {
+                                    "type": "text",
+                                    "text": "❄️ ❄️ ❄️",
+                                    "align": "center",
+                                    "size": "xs",
+                                    "color": "#FFFFFF99",
+                                    "margin": "none"
+                                },
                                 {
                                     "type": "text",
                                     "text": "🎓學籍與課程資訊",
@@ -87,6 +95,14 @@ def handle_message(event):
                                 button_with_line("Tài khoản của trường", "Tài khoản của trường"),
                                 button_with_line("Tra cứu thông tin học sinh", "Tra cứu thông tin học sinh"),
                                 button_with_line("thời khóa biểu", "thời khóa biểu"),
+                                {
+                                    "type": "text",
+                                    "text": "❄️❄️❄️",
+                                    "align": "center",
+                                    "color": "#FFFFFF88",
+                                    "size": "xs",
+                                    "margin": "md"
+                                }
                             ]
                         }
                     },
