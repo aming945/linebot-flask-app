@@ -57,7 +57,7 @@ def handle_message(event):
             },
             {
                 "type": "text",
-                "text": "❄️✨❄️✨❄️✨❄️✨❄️✨❄️",
+                "text": "❄️ ✨ ❄️ ✨ ❄️ ✨ ❄️ ✨ ❄️ ✨ ❄️",
                 "align": "center",
                 "size": "xxs",
                 "color": "#008A00",
