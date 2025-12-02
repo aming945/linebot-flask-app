@@ -47,19 +47,28 @@ def handle_message(event):
     def button_with_line(label, text):
         return {
         "type": "box",
-        "layout": "vertical",
+        "layout": "vertical","paddingAll": "8px",
+        "backgroundColor": "#FFF7F7",
+        "cornerRadius": "10px",
         "contents": [
             {
                 "type": "button",
                 "style": "link",
-                "action": {"type": "message", "label": label, "text": text},
-                "color": "#0000FF"
+                "action": {"type": "message", "label": f"🎅 {label}", "text": text},
+                "color": "#D30000"
+            },
+            {
+                "type": "text",
+                "text": "❄️❄️❄️",
+                "align": "center",
+                "size": "xxs",
+                "margin": "xs"
             },
             {
                 "type": "box",
                 "layout": "vertical",
                 "height": "1px",
-                "backgroundColor": "#CCCCCC",
+                "backgroundColor": "#008A00",
                 "margin": "sm"
             }
         ]
@@ -168,7 +177,7 @@ def handle_message(event):
                         "body": {
                             "type": "box",
                             "layout": "vertical",
-                            "contents": [
+                            "contents": [  
                                 {
                                     "type": "text",
                                     "text": "🎓 就學相關須知",
