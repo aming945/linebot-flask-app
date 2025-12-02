@@ -47,22 +47,13 @@ def handle_message(event):
     def button_with_line(label, text):
         return {
         "type": "box",
-        "layout": "vertical","paddingAll": "8px",
-        "backgroundColor": "#FFF7F7",
-        "cornerRadius": "10px",
+        "layout": "vertical",
         "contents": [
             {
                 "type": "button",
                 "style": "link",
                 "action": {"type": "message", "label": f"🎅 {label}", "text": text},
                 "color": "#D30000"
-            },
-            {
-                "type": "text",
-                "text": "❄️❄️❄️",
-                "align": "center",
-                "size": "xxs",
-                "margin": "xs"
             },
             {
                 "type": "box",
